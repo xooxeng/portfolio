@@ -6,7 +6,7 @@
 
 @font-face {
   font-family: "DungGeunMo";
-  src: url("./assets/fonts/DungGeunMo-Regular.woff2") format("woff2");
+  src: url("./assets/fonts/DungGeunMo-Regular.woff2?v=1") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -14,7 +14,7 @@
 
 @font-face {
   font-family: "VT323";
-  src: url("./assets/fonts/VT323-Regular.ttf") format("truetype");
+  src: url("./assets/fonts/VT323-Regular.ttf?v=1") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
