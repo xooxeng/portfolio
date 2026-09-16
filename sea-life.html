@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SEA LIFE BUSAN — Concept</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #fff;
+      }
+
+      .concept-tile {
+        display: block;
+        width: 1920px;
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+        aspect-ratio: 3840 / 1699;
+      }
+    </style>
+  </head>
+  <body>
+    <img class="concept-tile" src="./assets/sea-life-tiles/sea-life-01.png?v=2" width="3840" height="1699" fetchpriority="high" alt="SEA LIFE BUSAN concept page" />
+    <img class="concept-tile" data-src="./assets/sea-life-tiles/sea-life-02.png" width="3840" height="1699" alt="" />
+    <img class="concept-tile" data-src="./assets/sea-life-tiles/sea-life-03.png" width="3840" height="1699" alt="" />
+    <img class="concept-tile" data-src="./assets/sea-life-tiles/sea-life-04.png" width="3840" height="1699" alt="" />
+    <img class="concept-tile" data-src="./assets/sea-life-tiles/sea-life-05.png" width="3840" height="1699" alt="" />
+    <img class="concept-tile" data-src="./assets/sea-life-tiles/sea-life-06.png" width="3840" height="1699" alt="" />
+    <img class="concept-tile" data-src="./assets/sea-life-tiles/sea-life-07.png" width="3840" height="1699" alt="" />
+    <img class="concept-tile" data-src="./assets/sea-life-tiles/sea-life-08.png" width="3840" height="1699" alt="" />
+    <img class="concept-tile" data-src="./assets/sea-life-tiles/sea-life-09.png" width="3840" height="1699" alt="" />
+    <img class="concept-tile" data-src="./assets/sea-life-tiles/sea-life-10.png" width="3840" height="1699" alt="" />
+    <img class="concept-tile" data-src="./assets/sea-life-tiles/sea-life-11.png" width="3840" height="1699" alt="" />
+    <img class="concept-tile" data-src="./assets/sea-life-tiles/sea-life-12.png" width="3840" height="1699" alt="" />
+    <img class="concept-tile" data-src="./assets/sea-life-tiles/sea-life-13.png" width="3840" height="1699" alt="" />
+    <img class="concept-tile" data-src="./assets/sea-life-tiles/sea-life-14.png" width="3840" height="1699" alt="" />
+
+    <script>
+      const deferredTiles = document.querySelectorAll('.concept-tile[data-src]');
+      const loadTile = (tile) => {
+        tile.src = `${tile.dataset.src}?v=2`;
+        tile.removeAttribute('data-src');
+      };
+
+      if ('IntersectionObserver' in window) {
+        const tileObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            loadTile(entry.target);
+            observer.unobserve(entry.target);
+          });
+        }, { rootMargin: '1400px 0px' });
+
+        deferredTiles.forEach((tile) => tileObserver.observe(tile));
+      } else {
+        deferredTiles.forEach(loadTile);
+      }
+    </script>
+  </body>
+</html>

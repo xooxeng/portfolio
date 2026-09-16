@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="ribbon-layer" aria-hidden="true">
+      <img class="ribbon ribbon--one" src="./assets/ribbon_01.png" alt="" />
+      <img class="ribbon ribbon--two" src="./assets/ribbon_02.png" alt="" />
+      <img class="ribbon ribbon--three" src="./assets/ribbon_03.png" alt="" />
+    </div>
+    <header class="navigation">
+      <nav class="navigation__inner" aria-label="Primary navigation">
+        <a class="navigation__brand" href="#portfolio">Portfolio</a>
+        <button class="navigation__toggle" type="button" aria-expanded="false" aria-controls="navigation-links" aria-label="메뉴 열기">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="navigation__links" id="navigation-links">
+          <a href="#about" data-scroll-to="about">About</a>
+          <a href="#project" data-scroll-to="project">Project</a>
+          <a href="#contact" data-scroll-to="contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="page" id="portfolio">
+      <div class="content">
+        <img class="artwork artwork--portfolio" src="./assets/portfolio.png" alt="Design portfolio" />
+        <section class="about-section" id="about">
+          <img class="artwork artwork--about" src="./assets/about_01.png" alt="About the designer" />
+          <img class="artwork artwork--details" src="./assets/about_02.png" alt="Designer skills and portfolio details" />
+        </section>
+        <section class="projects-panel" id="project" aria-label="Selected projects">
+          <div class="project-date" aria-label="Project date">
+            <span>2</span><span>6</span><span>0</span><span>4</span><span>0</span><span>5</span>
+          </div>
+          <div class="projects-panel__content">
+            <div class="project-preview">
+              <img src="./assets/projects_01.png" alt="ORB LENS project preview" data-project-image />
+            </div>
+            <div class="project-text-stack">
+            <p class="project-category"><span>Category</span><b>|</b><span data-project="category">Branding Design, Graphic Design</span></p>
+            <h2 class="project-title" data-project="title">ORB LENS</h2>
+            <p class="project-subtitle" data-project="subtitle">오르브 렌즈 브랜딩 디자인</p>
+            <p class="project-details" data-project="details">Project Details:</p>
+
+            <nav class="project-links" aria-label="Project links">
+              <a data-project-link="design" href="https://example.com/orb-lens/design">Design -&gt;</a>
+              <a data-project-link="graphic" href="https://example.com/orb-lens/graphic">Graphic -&gt;</a>
+            </nav>
+
+            <p class="project-list-label">List</p>
+            <div class="project-list" role="tablist" aria-label="Project list">
+              <button class="project-list__button is-active" type="button" role="tab" aria-selected="true" data-project-id="orb" disabled>01&nbsp; ORB LENS</button>
+              <span class="project-list__divider" aria-hidden="true"></span>
+              <button class="project-list__button" type="button" role="tab" aria-selected="false" data-project-id="sea">02&nbsp; SEA LIFE BUSAN</button>
+              <span class="project-list__divider" aria-hidden="true"></span>
+              <button class="project-list__button" type="button" role="tab" aria-selected="false" data-project-id="lush">03&nbsp; LUSH</button>
+              <span class="project-list__divider" aria-hidden="true"></span>
+              <button class="project-list__button" type="button" role="tab" aria-selected="false" data-project-id="amasvin">04&nbsp; AMASVIN</button>
+            </div>
+            </div>
+          </div>
+        </section>
+        <section class="contact-section" id="contact" aria-label="Contact information">
+          <img class="artwork artwork--contact" src="./assets/contact.png" alt="Contact information" />
+          <div class="contact-details">
+            <button class="contact-details__item" type="button" data-copy="010.4949.9356">010.4949.9356</button>
+            <button class="contact-details__item" type="button" data-copy="xooxeng@naver.com">xooxeng@naver.com</button>
+            <p class="contact-details__message">읽어주셔서 감사합니다. 함께할 기회를 기다리겠습니다.</p>
+            <span class="contact-copy-status" role="status" aria-live="polite"></span>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer class="site-footer">© 2026 Jeong Su. All rights reserved.</footer>
+    <div class="cursor-ring" aria-hidden="true"></div>
+    <script>
+      const aboutLink = document.querySelector('[data-scroll-to="about"]');
+      const projectLink = document.querySelector('[data-scroll-to="project"]');
+      const contactLink = document.querySelector('[data-scroll-to="contact"]');
+      const aboutSection = document.getElementById('about');
+      const aboutImage = document.querySelector('.artwork--about');
+      const projectsImage = document.getElementById('project');
+      const contactSection = document.getElementById('contact');
+      const navigation = document.querySelector('.navigation');
+      const navigationToggle = document.querySelector('.navigation__toggle');
+
+      navigationToggle.addEventListener('click', () => {
+        const isOpen = navigation.classList.toggle('is-open');
+        navigationToggle.setAttribute('aria-expanded', String(isOpen));
+        navigationToggle.setAttribute('aria-label', isOpen ? '메뉴 닫기' : '메뉴 열기');
+      });
+
+      const scrollImageAboveCenter = (event, image) => {
+        event.preventDefault();
+        const imageTop = image.getBoundingClientRect().top + window.scrollY;
+        const centeredTop = imageTop - (window.innerHeight - image.offsetHeight) / 2 - 40;
+
+        window.scrollTo({ top: Math.max(0, centeredTop), behavior: 'smooth' });
+      };
+
+      aboutLink.addEventListener('click', (event) => scrollImageAboveCenter(event, aboutImage));
+      projectLink.addEventListener('click', (event) => scrollImageAboveCenter(event, projectsImage));
+      contactLink.addEventListener('click', (event) => scrollImageAboveCenter(event, contactSection));
+
+      const updateActiveNavigation = () => {
+        const sections = [
+          { element: aboutSection, link: aboutLink },
+          { element: projectsImage, link: projectLink },
+          { element: contactSection, link: contactLink },
+        ];
+        const viewportCenter = window.innerHeight / 2;
+        const currentSection = sections.find(({ element }) => {
+          const bounds = element.getBoundingClientRect();
+          return bounds.top <= viewportCenter && bounds.bottom >= viewportCenter;
+        });
+
+        sections.forEach(({ link }) => link.classList.toggle('is-active', link === currentSection?.link));
+      };
+
+      document.querySelectorAll('[data-scroll-to]').forEach((link) => {
+        link.addEventListener('click', () => {
+          link.classList.add('is-active');
+          navigation.classList.remove('is-open');
+          navigationToggle.setAttribute('aria-expanded', 'false');
+          navigationToggle.setAttribute('aria-label', '메뉴 열기');
+        });
+      });
+      window.addEventListener('scroll', updateActiveNavigation, { passive: true });
+      window.addEventListener('resize', updateActiveNavigation);
+      updateActiveNavigation();
+
+      const copyWithLegacyMethod = (text) => {
+        const temporaryInput = document.createElement('textarea');
+        temporaryInput.value = text;
+        temporaryInput.setAttribute('readonly', '');
+        temporaryInput.style.position = 'fixed';
+        temporaryInput.style.top = '0';
+        temporaryInput.style.left = '0';
+        temporaryInput.style.width = '1px';
+        temporaryInput.style.height = '1px';
+        temporaryInput.style.padding = '0';
+        temporaryInput.style.border = '0';
+        temporaryInput.style.opacity = '0';
+        document.body.append(temporaryInput);
+        temporaryInput.focus();
+        temporaryInput.select();
+        temporaryInput.setSelectionRange(0, temporaryInput.value.length);
+        const wasCopied = document.execCommand('copy');
+        temporaryInput.remove();
+        return wasCopied;
+      };
+
+      const copyStatus = document.querySelector('.contact-copy-status');
+      let copyStatusTimer;
+
+      const showCopyStatus = () => {
+        copyStatus.textContent = 'Copied!';
+        window.clearTimeout(copyStatusTimer);
+        copyStatusTimer = window.setTimeout(() => {
+          copyStatus.textContent = '';
+        }, 1200);
+      };
+
+      document.querySelectorAll('[data-copy]').forEach((item) => {
+        item.addEventListener('click', async () => {
+          const copyText = item.dataset.copy;
+
+          if (navigator.clipboard) {
+            try {
+              await navigator.clipboard.writeText(copyText);
+              showCopyStatus();
+              return;
+            } catch {
+              // Local previews can block the modern Clipboard API; use the fallback below.
+            }
+          }
+
+          if (copyWithLegacyMethod(copyText)) showCopyStatus();
+        });
+      });
+
+      const projectData = {
+        orb: {
+          date: ['2', '6', '0', '4', '0', '5'],
+          image: './assets/projects_01.png',
+          imageAlt: 'ORB LENS project preview',
+          category: 'Branding Design, Graphic Design',
+          title: 'ORB LENS',
+          subtitle: '오르브 렌즈 브랜딩 디자인',
+          details: 'Project Details:',
+          links: {
+            design: './orb.html',
+            graphic: './orb-graphic.html',
+          },
+          linkLabels: {
+            design: 'Design ->',
+            graphic: 'Graphic ->',
+          },
+        },
+        sea: {
+          date: ['2', '6', '0', '5', '0', '6'],
+          image: './assets/projects_02.png',
+          imageAlt: 'SEA LIFE BUSAN project preview',
+          category: 'Web Design, UX/UI Design',
+          title: 'SEA LIFE BUSAN',
+          subtitle: '씨라이프 부산 아쿠아리움 웹 리뉴얼',
+          details: 'Project Details:',
+          links: {
+            design: './sea-life.html',
+            graphic: 'https://xooxeng.github.io/sea-life-busan-renewal/',
+          },
+          linkLabels: {
+            design: 'Design ->',
+            graphic: 'Web Page ->',
+          },
+        },
+        lush: {
+          date: ['2', '6', '0', '6', '0', '7'],
+          image: './assets/projects_03.png',
+          imageAlt: 'LUSH project preview',
+          category: 'Web Design, UX/UI Design',
+          title: 'LUSH',
+          subtitle: '러쉬 홈페이지 웹 리뉴얼',
+          details: 'Project Details:',
+          links: {
+            design: './lush.html',
+            graphic: 'https://gcha8178-ctrl.github.io/lush/',
+          },
+          linkLabels: {
+            design: 'Design ->',
+            graphic: 'Web Page ->',
+          },
+        },
+        amasvin: {
+          date: ['2', '6', '0', '7', '0', '7'],
+          image: './assets/projects_04.png',
+          imageAlt: 'AMASVIN project preview',
+          category: 'Branding Design, Graphic Design, Web Design',
+          title: 'AMASVIN',
+          subtitle: '아마스빈 신메뉴 프로모션 기획',
+          details: 'Project Details:',
+          links: {
+            design: './amasvin.html',
+            graphic: 'https://minchoacoun2.github.io/amasvin/',
+          },
+          linkLabels: {
+            design: 'Design ->',
+            graphic: 'Web Page ->',
+          },
+        },
+      };
+
+      const projectFields = document.querySelectorAll('[data-project]');
+      const projectLinkFields = document.querySelectorAll('[data-project-link]');
+      const projectDateFields = document.querySelectorAll('.project-date span');
+      const projectImage = document.querySelector('[data-project-image]');
+      const projectButtons = document.querySelectorAll('[data-project-id]');
+
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+      const renderProject = (projectId, updateUrl = false) => {
+        const selectedProject = projectData[projectId];
+        if (!selectedProject) return;
+
+        projectFields.forEach((field) => {
+          field.textContent = selectedProject[field.dataset.project];
+        });
+        projectLinkFields.forEach((link) => {
+          const linkType = link.dataset.projectLink;
+          link.href = selectedProject.links[linkType];
+          link.textContent = selectedProject.linkLabels[linkType];
+        });
+        projectDateFields.forEach((digit, index) => {
+          digit.textContent = selectedProject.date[index];
+        });
+        projectImage.src = selectedProject.image;
+        projectImage.alt = selectedProject.imageAlt;
+        projectButtons.forEach((projectButton) => {
+          const isActive = projectButton.dataset.projectId === projectId;
+          projectButton.classList.toggle('is-active', isActive);
+          projectButton.setAttribute('aria-selected', String(isActive));
+          projectButton.disabled = isActive;
+        });
+
+        try {
+          sessionStorage.setItem('selected-project', projectId);
+        } catch {}
+
+        if (updateUrl) history.replaceState(null, '', `#${projectId}`);
+      };
+
+      projectButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          if (button.disabled) return;
+          renderProject(button.dataset.projectId, true);
+        });
+      });
+
+      const saveScrollPosition = () => {
+        const scrollY = window.scrollY;
+        history.replaceState({ ...history.state, portfolioScrollY: scrollY }, '', window.location.href);
+        try {
+          sessionStorage.setItem('portfolio-scroll-y', String(scrollY));
+        } catch {}
+      };
+
+      projectLinkFields.forEach((link) => link.addEventListener('click', saveScrollPosition));
+      window.addEventListener('pagehide', saveScrollPosition);
+
+      const projectFromUrl = window.location.hash.slice(1);
+      let savedProject = 'orb';
+      try {
+        savedProject = sessionStorage.getItem('selected-project') || savedProject;
+      } catch {}
+      renderProject(projectData[projectFromUrl] ? projectFromUrl : savedProject);
+
+      const isBackForwardNavigation = () => {
+        const navigationEntry = performance.getEntriesByType?.('navigation')[0];
+        return navigationEntry?.type === 'back_forward' || performance.navigation?.type === 2;
+      };
+
+      const restoreScrollPosition = (event) => {
+        if (!event.persisted && !isBackForwardNavigation()) return;
+
+        let savedScrollY = history.state?.portfolioScrollY ?? null;
+        try {
+          savedScrollY ??= sessionStorage.getItem('portfolio-scroll-y');
+        } catch {}
+        if (savedScrollY === null) return;
+
+        const restore = () => window.scrollTo(0, Number(savedScrollY));
+        restore();
+        requestAnimationFrame(() => requestAnimationFrame(restore));
+      };
+
+      window.addEventListener('pageshow', restoreScrollPosition);
+
+      window.addEventListener('popstate', () => {
+        const projectId = window.location.hash.slice(1);
+        if (projectData[projectId]) renderProject(projectId);
+      });
+
+      const supportsCursorRing = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+      if (supportsCursorRing.matches) {
+        const cursorRing = document.querySelector('.cursor-ring');
+        let targetX = 0;
+        let targetY = 0;
+        let ringX = 0;
+        let ringY = 0;
+        let targetScale = 1;
+        let ringScale = 1;
+        let hoverScale = 1;
+        let isClicking = false;
+        let isVisible = false;
+
+        const followCursor = () => {
+          ringX += (targetX - ringX) * 0.16;
+          ringY += (targetY - ringY) * 0.16;
+          ringScale += (targetScale - ringScale) * 0.18;
+          cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) scale(${ringScale})`;
+          requestAnimationFrame(followCursor);
+        };
+
+        window.addEventListener('mousemove', (event) => {
+          targetX = event.clientX - cursorRing.offsetWidth / 2;
+          targetY = event.clientY - cursorRing.offsetHeight / 2;
+
+          if (!isVisible) {
+            ringX = targetX;
+            ringY = targetY;
+            cursorRing.classList.add('cursor-ring--visible');
+            isVisible = true;
+          }
+        });
+
+        document.documentElement.addEventListener('mouseleave', () => {
+          cursorRing.classList.remove('cursor-ring--visible');
+          isVisible = false;
+        });
+
+        const interactiveSelector = 'a, button, input, select, textarea, [role="button"], [tabindex]:not([tabindex="-1"])';
+
+        document.querySelectorAll(interactiveSelector).forEach((element) => {
+          element.addEventListener('mouseenter', () => {
+            hoverScale = 1.4;
+            if (!isClicking) targetScale = hoverScale;
+          });
+
+          element.addEventListener('mouseleave', () => {
+            hoverScale = 1;
+            if (!isClicking) targetScale = hoverScale;
+          });
+        });
+
+        window.addEventListener('pointerdown', () => {
+          isClicking = true;
+          targetScale = 0.78;
+
+          window.setTimeout(() => {
+            isClicking = false;
+            targetScale = hoverScale;
+          }, 120);
+        });
+
+        requestAnimationFrame(followCursor);
+      }
+    </script>
+  </body>
+</html>
