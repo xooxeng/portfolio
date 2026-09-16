@@ -307,14 +307,17 @@
 
       const saveScrollPosition = () => {
         const scrollY = window.scrollY;
-        history.replaceState({ ...history.state, portfolioScrollY: scrollY }, '', window.location.href);
+      
         try {
           sessionStorage.setItem('portfolio-scroll-y', String(scrollY));
         } catch {}
       };
-
-      projectLinkFields.forEach((link) => link.addEventListener('click', saveScrollPosition));
-      window.addEventListener('pagehide', saveScrollPosition);
+      
+      projectLinkFields.forEach((link) => {
+        link.addEventListener('click', () => {
+          saveScrollPosition();
+        });
+      });
 
       const projectFromUrl = window.location.hash.slice(1);
       let savedProject = 'orb';
@@ -323,27 +326,37 @@
       } catch {}
       renderProject(projectData[projectFromUrl] ? projectFromUrl : savedProject);
 
-      const isBackForwardNavigation = () => {
-        const navigationEntry = performance.getEntriesByType?.('navigation')[0];
-        return navigationEntry?.type === 'back_forward' || performance.navigation?.type === 2;
-      };
-
       const restoreScrollPosition = (event) => {
-        if (!event.persisted && !isBackForwardNavigation()) return;
-
-        let savedScrollY = history.state?.portfolioScrollY ?? null;
+        if (!event.persisted) {
+          const navigationEntry = performance.getEntriesByType?.('navigation')[0];
+      
+          if (
+            navigationEntry?.type !== 'back_forward' &&
+            performance.navigation?.type !== 2
+          ) {
+            return;
+          }
+        }
+      
+        let savedScrollY = null;
+      
         try {
-          savedScrollY ??= sessionStorage.getItem('portfolio-scroll-y');
+          savedScrollY = sessionStorage.getItem('portfolio-scroll-y');
         } catch {}
+      
         if (savedScrollY === null) return;
-
-        const restore = () => window.scrollTo(0, Number(savedScrollY));
-        restore();
-        requestAnimationFrame(() => requestAnimationFrame(restore));
+      
+        const restore = () => {
+          window.scrollTo(0, Number(savedScrollY));
+        };
+      
+        requestAnimationFrame(() => {
+          requestAnimationFrame(restore);
+        });
       };
-
+      
       window.addEventListener('pageshow', restoreScrollPosition);
-
+      
       window.addEventListener('popstate', () => {
         const projectId = window.location.hash.slice(1);
         if (projectData[projectId]) renderProject(projectId);
