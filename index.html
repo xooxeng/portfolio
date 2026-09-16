@@ -265,7 +265,7 @@
       const projectImage = document.querySelector('[data-project-image]');
       const projectButtons = document.querySelectorAll('[data-project-id]');
 
-      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
 
       const renderProject = (projectId, updateUrl = false) => {
         const selectedProject = projectData[projectId];
@@ -325,37 +325,6 @@
         savedProject = sessionStorage.getItem('selected-project') || savedProject;
       } catch {}
       renderProject(projectData[projectFromUrl] ? projectFromUrl : savedProject);
-
-      const restoreScrollPosition = (event) => {
-        if (!event.persisted) {
-          const navigationEntry = performance.getEntriesByType?.('navigation')[0];
-      
-          if (
-            navigationEntry?.type !== 'back_forward' &&
-            performance.navigation?.type !== 2
-          ) {
-            return;
-          }
-        }
-      
-        let savedScrollY = null;
-      
-        try {
-          savedScrollY = sessionStorage.getItem('portfolio-scroll-y');
-        } catch {}
-      
-        if (savedScrollY === null) return;
-      
-        const restore = () => {
-          window.scrollTo(0, Number(savedScrollY));
-        };
-      
-        requestAnimationFrame(() => {
-          requestAnimationFrame(restore);
-        });
-      };
-      
-      window.addEventListener('pageshow', restoreScrollPosition);
       
       window.addEventListener('popstate', () => {
         const projectId = window.location.hash.slice(1);
